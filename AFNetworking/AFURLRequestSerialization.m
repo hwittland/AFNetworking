@@ -60,10 +60,7 @@ NSString * AFPercentEscapedStringFromString(NSString *string) {
     NSMutableString *escaped = @"".mutableCopy;
 
     while (index < string.length) {
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wgnu"
         NSUInteger length = MIN(string.length - index, batchSize);
-#pragma GCC diagnostic pop
         NSRange range = NSMakeRange(index, length);
 
         // To avoid breaking up character sequences such as 👴🏻👮🏽
@@ -221,8 +218,6 @@ static void *AFHTTPRequestSerializerObserverContext = &AFHTTPRequestSerializerOb
     [self setValue:[acceptLanguagesComponents componentsJoinedByString:@", "] forHTTPHeaderField:@"Accept-Language"];
 
     NSString *userAgent = nil;
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wgnu"
 #if TARGET_OS_IOS
     // User-Agent Header; see http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.43
     userAgent = [NSString stringWithFormat:@"%@/%@ (%@; iOS %@; Scale/%0.2f)", [[NSBundle mainBundle] infoDictionary][(__bridge NSString *)kCFBundleExecutableKey] ?: [[NSBundle mainBundle] infoDictionary][(__bridge NSString *)kCFBundleIdentifierKey], [[NSBundle mainBundle] infoDictionary][@"CFBundleShortVersionString"] ?: [[NSBundle mainBundle] infoDictionary][(__bridge NSString *)kCFBundleVersionKey], [[UIDevice currentDevice] model], [[UIDevice currentDevice] systemVersion], [[UIScreen mainScreen] scale]];
@@ -232,7 +227,6 @@ static void *AFHTTPRequestSerializerObserverContext = &AFHTTPRequestSerializerOb
 #elif defined(__MAC_OS_X_VERSION_MIN_REQUIRED)
     userAgent = [NSString stringWithFormat:@"%@/%@ (Mac OS X %@)", [[NSBundle mainBundle] infoDictionary][(__bridge NSString *)kCFBundleExecutableKey] ?: [[NSBundle mainBundle] infoDictionary][(__bridge NSString *)kCFBundleIdentifierKey], [[NSBundle mainBundle] infoDictionary][@"CFBundleShortVersionString"] ?: [[NSBundle mainBundle] infoDictionary][(__bridge NSString *)kCFBundleVersionKey], [[NSProcessInfo processInfo] operatingSystemVersionString]];
 #endif
-#pragma clang diagnostic pop
     if (userAgent) {
         if (![userAgent canBeConvertedToEncoding:NSASCIIStringEncoding]) {
             NSMutableString *mutableUserAgent = [userAgent mutableCopy];
@@ -906,8 +900,6 @@ NSTimeInterval const kAFUploadStream3GSuggestedDelay = 0.2;
 
     NSInteger totalNumberOfBytesRead = 0;
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wgnu"
     while ((NSUInteger)totalNumberOfBytesRead < MIN(length, self.numberOfBytesInPacket)) {
         if (!self.currentHTTPBodyPart || ![self.currentHTTPBodyPart hasBytesAvailable]) {
             if (!(self.currentHTTPBodyPart = [self.HTTPBodyPartEnumerator nextObject])) {
@@ -928,7 +920,6 @@ NSTimeInterval const kAFUploadStream3GSuggestedDelay = 0.2;
             }
         }
     }
-#pragma clang diagnostic pop
 
     return totalNumberOfBytesRead;
 }
@@ -1169,11 +1160,8 @@ typedef enum {
            intoBuffer:(uint8_t *)buffer
             maxLength:(NSUInteger)length
 {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wgnu"
     NSRange range = NSMakeRange((NSUInteger)_phaseReadOffset, MIN([data length] - ((NSUInteger)_phaseReadOffset), length));
     [data getBytes:buffer range:range];
-#pragma clang diagnostic pop
 
     _phaseReadOffset += range.length;
 
